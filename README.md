@@ -1,4 +1,6 @@
-# Online Probabilistic Prediction Market: Submission Repository
+# Self-Financed Prediction Markets with Skill-Weighted Stakes
+
+A weighted-score wagering mechanism with an online skill-estimation layer
 
 ## Overview
 
