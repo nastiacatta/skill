@@ -1,0 +1,113 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`structural snapshot — leaderboard > locks the ranked table head, the sort controls and the per-row account links 1`] = `
+"table [data-testid="leaderboard-table"]
+  thead
+    tr
+      th
+      th
+      th
+      th
+      th
+      th
+      th
+      th
+      th
+  tbody
+    tr [data-testid="leaderboard-row-4"]
+      td
+      td
+        a [href="#/platform/account?seat=4"]
+          span
+      td
+      td
+      td
+      td
+      td
+      td
+      td
+        svg [role="img" aria-label="Profit trend for F5"]
+          line
+          path
+          circle
+    tr [data-testid="leaderboard-row-1"]
+      td
+      td
+        a [href="#/platform/account?seat=1"]
+          span
+      td
+      td
+      td
+      td
+      td
+      td
+      td
+        svg [role="img" aria-label="Profit trend for F2"]
+          line
+          path
+          circle
+    tr [data-testid="leaderboard-row-3"]
+      td
+      td
+        a [href="#/platform/account?seat=3"]
+          span
+      td
+      td
+      td
+      td
+      td
+      td
+      td
+        svg [role="img" aria-label="Profit trend for F4"]
+          line
+          path
+          circle
+    tr [data-testid="leaderboard-row-0"]
+      td
+      td
+        a [href="#/platform/account?seat=0"]
+          span
+      td
+      td
+      td
+      td
+      td
+      td
+      td
+        svg [role="img" aria-label="Profit trend for F1"]
+          line
+          path
+          circle
+    tr [data-testid="leaderboard-row-5"]
+      td
+      td
+        a [href="#/platform/account?seat=5"]
+          span
+      td
+      td
+      td
+      td
+      td
+      td
+      td
+        svg [role="img" aria-label="Profit trend for F6"]
+          line
+          path
+          circle
+    tr [data-testid="leaderboard-row-2"]
+      td
+      td
+        a [href="#/platform/account?seat=2"]
+          span
+      td
+      td
+      td
+      td
+      td
+      td
+      td
+        svg [role="img" aria-label="Profit trend for F3"]
+          line
+          path
+          circle"
+`;

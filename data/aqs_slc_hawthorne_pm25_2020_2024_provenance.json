@@ -1,0 +1,36 @@
+{
+  "source_url": "https://aqs.epa.gov/aqsweb/airdata/",
+  "monitor": "State 49 County 035 Site 3006 (Salt Lake City Hawthorne)",
+  "parameters": [
+    "88101",
+    "88502"
+  ],
+  "download_date": "2026-05-23",
+  "row_count": 8752,
+  "time_range": {
+    "start": "2024-01-01T07:00:00Z",
+    "end": "2025-01-01T06:00:00Z"
+  },
+  "per_year_param_counts": {
+    "2020": {
+      "88101": 0,
+      "88502": 0
+    },
+    "2021": {
+      "88101": 0,
+      "88502": 0
+    },
+    "2022": {
+      "88101": 0,
+      "88502": 0
+    },
+    "2023": {
+      "88101": 0,
+      "88502": 0
+    },
+    "2024": {
+      "88101": 8752,
+      "88502": 0
+    }
+  }
+}

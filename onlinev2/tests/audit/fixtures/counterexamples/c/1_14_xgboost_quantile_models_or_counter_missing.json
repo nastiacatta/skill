@@ -1,0 +1,6 @@
+{
+  "expected_len": 3,
+  "fallback_counter_present": false,
+  "fallback_counter_value": null,
+  "quantile_models_len": 3
+}

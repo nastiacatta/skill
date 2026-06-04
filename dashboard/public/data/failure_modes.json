@@ -1,0 +1,38 @@
+[
+  {
+    "id": "small_panel",
+    "condition": "Small panel size (N ≤ 3)",
+    "experimentName": "master_comparison",
+    "deltaCrps": 0.02,
+    "ciLow": -0.01,
+    "ciHigh": 0.05,
+    "explanation": "With very few forecasters, the EWMA skill estimates are dominated by estimation noise. The variance of σ̂ is too high relative to the true skill differences, so the skill-weighted aggregate is no better — and sometimes worse — than equal weighting."
+  },
+  {
+    "id": "short_horizon",
+    "condition": "Short horizon (T < 50)",
+    "experimentName": "master_comparison",
+    "deltaCrps": 0.015,
+    "ciLow": -0.005,
+    "ciHigh": 0.035,
+    "explanation": "The EWMA skill layer requires a burn-in period to converge. With fewer than ~50 rounds, the learned skill weights are still noisy and the mechanism has not had enough observations to separate good from bad forecasters."
+  },
+  {
+    "id": "non_stationarity",
+    "condition": "Non-stationarity during re-learning",
+    "experimentName": "skill_recovery",
+    "deltaCrps": 0.03,
+    "ciLow": 0.005,
+    "ciHigh": 0.055,
+    "explanation": "When the underlying forecaster quality changes abruptly (regime shift or perturbation), the EWMA skill estimates become stale. During the re-learning window (~50 rounds), the mechanism assigns outdated weights and equal weighting dominates."
+  },
+  {
+    "id": "homogeneous_skill",
+    "condition": "Homogeneous skill (all forecasters equally good)",
+    "experimentName": "master_comparison",
+    "deltaCrps": 0.001,
+    "ciLow": -0.008,
+    "ciHigh": 0.01,
+    "explanation": "When all forecasters have identical intrinsic quality, there is no skill signal to exploit. The skill layer learns near-equal weights with noise, so the mechanism reduces to a noisier version of equal weighting with no accuracy benefit."
+  }
+]

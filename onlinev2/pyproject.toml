@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "onlinev2"
+version = "0.1.0"
+description = "Online forecasting aggregation and wagering"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "matplotlib>=3.5",
+    "pandas>=2.0",
+]
+
+[project.optional-dependencies]
+# Real-data forecaster panel (ARIMA / XGBoost / MLP). Required to run the
+# real-data experiments and the full test suite; without these the
+# forecasters fall back to a naive predictor and the training-diagnostic
+# tests fail by design.
+forecasters = [
+    "statsmodels>=0.14",
+    "scikit-learn>=1.3",
+    "xgboost>=2.0",
+    "torch>=2.0",
+]
+dev = [
+    "ruff>=0.1",
+    "pytest>=7.0",
+    "hypothesis>=6.0",
+    "statsmodels>=0.14",
+    "scikit-learn>=1.3",
+    "xgboost>=2.0",
+    "torch>=2.0",
+]
+
+[project.scripts]
+run-onlinev2-experiments = "onlinev2.experiments.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "audit: mechanism correctness audit suite (bug conditions A-E)",
+    "audit_slow: audit suite cases requiring T>=2000 rounds",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501", "E402", "E701", "E702", "F401"]
+
+[tool.ruff.format]
+quote-style = "double"

@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+.env
+*.egg-info/
+*.egg
+.eggs/
+pip-wheel-metadata/
+
+# Testing / linting
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.hypothesis/
+
+# Outputs (generated at runtime — not committed)
+outputs/
+outputs_*/
+
+# Build artefacts
+build/
+dist/
+*.so
+
+# Node / dashboard
+node_modules/
+dashboard/dist/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data is intentionally included — do NOT add data/ or dashboard/public/data/ here

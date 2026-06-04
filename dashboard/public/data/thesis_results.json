@@ -1,0 +1,159 @@
+[
+  {
+    "id": "skill_improves_accuracy",
+    "title": "Skill improves accuracy in the identifiable benchmark",
+    "claim": "Blended skill + stake weighting reduces forecast error relative to equal weights when the DGP has a latent truth.",
+    "metric": "ΔCRPS = −7.1% on Elia wind",
+    "metricLabel": "ΔCRPS vs equal",
+    "chart": "cumulative_error",
+    "interpretation": "The online skill layer tracks forecaster quality and up-weights the better forecasters. On the full Elia offshore wind run (17,344 evaluation rounds, 7 forecasters, post-audit expanding normalisation) the mechanism reduces mean CRPS by 7.1% vs equal weighting (Diebold–Mariano t = 40.77, p < 0.001). Earlier dashboard numbers of −21% to −33% came from the pre-audit pipeline with whole-series min/max normalisation (B1 in Claim 9); those figures are superseded. The improvement remains meaningful but modest, and depends strongly on deposit policy: fixed deposits give the mechanism the most headroom, bankroll-fraction the least.",
+    "caveat": "Best-single (oracle of the per-round best forecaster) still outperforms the mechanism by ~16 pp on this series. The contribution is preserved economic structure (budget balance, sybil resistance, online skill), not universal accuracy dominance.",
+    "experimentName": "real_data_elia_wind",
+    "category": "aggregation_quality",
+    "conditions": {
+      "dgp": "elia_wind",
+      "n_forecasters": 7,
+      "T": 17344,
+      "deposit_policy": "fixed",
+      "normalize_mode": "expanding",
+      "gamma": 16,
+      "rho": 0.5,
+      "lam": 0.05
+    },
+    "evidence": {
+      "metric_field": "delta_crps_vs_equal",
+      "expected_sign": "negative",
+      "threshold": 0.001,
+      "comparison_method": "equal"
+    },
+    "limitations": [
+      "Holds on wind; essentially null on Elia electricity (t = 0.008, p = 0.99)",
+      "Best-single still beats the mechanism by ~16 pp on wind — universal accuracy dominance is not claimed",
+      "Pre-audit numbers (−21%, −33%) were artefacts of whole-series min/max normalisation and are superseded",
+      "Requires heterogeneous forecaster skill; a homogeneous panel sees no benefit",
+      "Small panels (N ≤ 3) or short horizons (T < 50) can erase the advantage"
+    ]
+  },
+  {
+    "id": "skill_recovery",
+    "title": "Skill estimates recover after perturbation",
+    "claim": "The EWMA skill layer recovers correct ordering within ~50 rounds after a shock to all skill weights.",
+    "metric": "Rank correlation > 0.9",
+    "metricLabel": "Spearman ρ (learned vs true skill)",
+    "chart": "skill_vs_true",
+    "interpretation": "The exponential decay parameter γ controls the speed-accuracy trade-off: faster decay recovers quicker but is noisier.",
+    "caveat": "Recovery speed depends on γ, signal-to-noise ratio, and the number of active agents.",
+    "experimentName": "skill_recovery",
+    "category": "skill_recovery",
+    "conditions": {
+      "dgp": "latent_fixed",
+      "n_forecasters": 6,
+      "T": 20000,
+      "deposit_policy": "fixed",
+      "n_seeds": 20
+    },
+    "evidence": {
+      "metric_field": "rank_correlation",
+      "expected_sign": "positive",
+      "threshold": 0.9,
+      "comparison_method": "true_skill_ordering"
+    },
+    "limitations": [
+      "Recovery time increases with panel size (more agents to re-rank)",
+      "Under high noise (low signal-to-noise ratio), recovery may be incomplete",
+      "Non-stationary skill (continuous drift) prevents full convergence"
+    ]
+  },
+  {
+    "id": "concentration_controlled",
+    "title": "Wealth concentration stays controlled",
+    "claim": "Gini and HHI do not rise sharply under skill + stake weighting compared to equal weights.",
+    "metric": "ΔGini ≈ 0, ΔN_eff ≈ 0",
+    "metricLabel": "ΔGini, ΔHHI, ΔN_eff",
+    "chart": "concentration_bar",
+    "interpretation": "Skill gating attenuates noisy large bets without concentrating wealth in few agents.",
+    "caveat": "Under some deposit policies (e.g. wealth-fraction), concentration can still rise if skilled agents compound returns.",
+    "experimentName": "master_comparison",
+    "category": "aggregation_quality",
+    "conditions": {
+      "dgp": "latent_fixed",
+      "n_forecasters": 10,
+      "T": 20000,
+      "deposit_policy": "fixed",
+      "n_seeds": 20
+    },
+    "evidence": {
+      "metric_field": "final_gini",
+      "expected_sign": "negative",
+      "threshold": 0.05,
+      "comparison_method": "equal"
+    },
+    "limitations": [
+      "Wealth-fraction deposit policy can increase concentration via compounding",
+      "Very long horizons (T >> 1000) may show slow concentration drift",
+      "Highly skilled outlier agents can still accumulate disproportionate wealth"
+    ]
+  },
+  {
+    "id": "calibration_holds",
+    "title": "Calibration holds in the centre, weakens in the tails",
+    "claim": "The aggregate forecast is well-calibrated for central quantiles but PIT coverage degrades for extreme quantiles.",
+    "metric": "PIT coverage gap < 5% for central, > 10% for tails",
+    "metricLabel": "PIT coverage gap",
+    "chart": "reliability_diagram",
+    "interpretation": "The linear pool preserves calibration for moderate probability events but under-disperses in the tails. Note: the baseline DGP produces miscalibrated forecasts by construction (uniform noise on quantiles). The latent-fixed DGP was introduced to provide a cleaner calibration benchmark.",
+    "caveat": "Tail miscalibration is the main modelling limitation and is shared across all weighting methods. Results should be interpreted relative to the DGP used.",
+    "experimentName": "calibration",
+    "category": "calibration",
+    "conditions": {
+      "dgp": "latent_fixed",
+      "n_forecasters": 10,
+      "T": 20000,
+      "deposit_policy": "fixed",
+      "n_seeds": 20
+    },
+    "evidence": {
+      "metric_field": "coverage_gap",
+      "expected_sign": "positive",
+      "threshold": 0.05,
+      "comparison_method": "nominal_coverage"
+    },
+    "limitations": [
+      "Tail miscalibration is inherent to the linear pool and shared across all methods",
+      "Baseline DGP produces miscalibrated forecasts by construction",
+      "Only tested on latent_fixed DGP; other DGPs may show different calibration patterns",
+      "Small panels may not provide enough diversity for good calibration"
+    ]
+  },
+  {
+    "id": "equal_is_strong_baseline",
+    "title": "Equal weighting is a strong baseline",
+    "claim": "Uniform weights are surprisingly hard to beat, especially under non-stationarity or small panels.",
+    "metric": "ΔCRPS close to 0",
+    "metricLabel": "ΔCRPS (blended − equal)",
+    "chart": "method_ranking",
+    "interpretation": "Blended skill × stake wins when the panel includes forecasters with heterogeneous skill and enough rounds for the EWMA to converge (typically >50). Under non-stationarity, regime shifts reset the skill estimates and equal weighting dominates during re-learning. With small panels (N ≤ 3), estimation noise in σ can erase the advantage entirely.",
+    "caveat": "With few agents or short horizons, estimation noise in σ can erase the advantage.",
+    "experimentName": "master_comparison",
+    "category": "aggregation_quality",
+    "conditions": {
+      "dgp": "latent_fixed",
+      "n_forecasters": 10,
+      "T": 20000,
+      "deposit_policy": "fixed",
+      "n_seeds": 20
+    },
+    "evidence": {
+      "metric_field": "delta_crps_vs_equal",
+      "expected_sign": "negative",
+      "threshold": 0.001,
+      "comparison_method": "equal"
+    },
+    "limitations": [
+      "Small panels (N ≤ 3): estimation noise erases the advantage",
+      "Short horizons (T < 50): EWMA has not converged",
+      "Non-stationarity: regime shifts reset skill estimates, equal dominates during re-learning",
+      "Homogeneous skill: no signal to exploit, equal is optimal"
+    ]
+  }
+]

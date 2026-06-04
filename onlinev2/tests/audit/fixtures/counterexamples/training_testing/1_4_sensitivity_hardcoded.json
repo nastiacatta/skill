@@ -1,0 +1,18 @@
+{
+  "is_hardcoded": true,
+  "sensitivity": {
+    "default_improvement_pct": -3.6,
+    "default_params": {
+      "eta": 2.0,
+      "gamma": 4,
+      "lam": 0.05,
+      "rho": 0.1
+    },
+    "note": "Run scripts/run_sensitivity_experiments.py for full results",
+    "optimal_improvement_pct": -27.2,
+    "optimal_params": {
+      "gamma": 16,
+      "rho": 0.5
+    }
+  }
+}

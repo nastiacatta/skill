@@ -1,0 +1,9 @@
+{
+  "error": "aggregate_forecast() got an unexpected keyword argument 'return_meta'",
+  "m": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ]
+}

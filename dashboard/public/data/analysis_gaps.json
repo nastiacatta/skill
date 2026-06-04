@@ -1,0 +1,47 @@
+[
+  {
+    "id": "bankroll_ablation_interpretation",
+    "title": "Bankroll ablation interpretation",
+    "description": "Determine which of the five pipeline steps (confidence proxy, deposit, skill gate, weight cap, wealth update) is responsible for the majority of the accuracy gain. Current ablation data shows step-level ΔCRPS but lacks a clear attribution of which step creates the gain vs which adds complexity without benefit.",
+    "priority": "critical",
+    "rationale": "Without this analysis, the thesis cannot precisely identify its contribution — the examiner will ask which component matters and which is dead weight.",
+    "estimated_effort": "2–3 hours (data exists, needs interpretation module and panel)",
+    "status": "complete"
+  },
+  {
+    "id": "real_data_replication",
+    "title": "Real-data replication beyond Elia wind",
+    "description": "The only real-data benchmark is Elia offshore wind. Replicating on Elia electricity, temperature forecasts, or financial volatility would strengthen generalisability claims.",
+    "priority": "high",
+    "rationale": "A single-dataset result is vulnerable to the criticism that findings are dataset-specific. At least one additional domain would substantially strengthen the argument.",
+    "estimated_effort": "4–6 hours per additional dataset (data sourcing + pipeline adaptation + analysis)",
+    "status": "complete"
+  },
+  {
+    "id": "regime_conditional_claims",
+    "title": "Regime-conditional claims",
+    "description": "Break down headline results by regime: early vs late rounds, pre- vs post-perturbation, high vs low volatility. Current results report only aggregate ΔCRPS, which masks regime-dependent performance.",
+    "priority": "high",
+    "rationale": "Aggregate results can hide that the mechanism helps in one regime and hurts in another. Regime-conditional claims are more precise and more defensible.",
+    "estimated_effort": "2–3 hours (regime breakdown module + panel integration)",
+    "status": "complete"
+  },
+  {
+    "id": "deposit_policy_interaction",
+    "title": "Deposit policy interaction effects",
+    "description": "Systematically analyse how the deposit policy (fixed, wealth-fraction, Kelly-like) interacts with the skill layer. Current results show fixed deposits yield 21% ΔCRPS but wealth-fraction only ~5% — the interaction mechanism is not fully explained.",
+    "priority": "medium",
+    "rationale": "The deposit policy is a key design choice. Understanding the interaction helps practitioners choose the right configuration and strengthens the thesis's practical contribution.",
+    "estimated_effort": "3–4 hours (cross-experiment analysis + visualisation)",
+    "status": "complete"
+  },
+  {
+    "id": "panel_size_sensitivity",
+    "title": "Panel size sensitivity (N = 3 vs 6 vs 10 vs 20)",
+    "description": "Systematically vary the number of forecasters to determine the minimum panel size at which the mechanism reliably beats equal weighting. Current experiments use N = 3, 6, or 10 but do not isolate the panel-size effect.",
+    "priority": "medium",
+    "rationale": "Panel size is a practical constraint in real deployments. Knowing the minimum N for the mechanism to work is essential for practitioners and examiners.",
+    "estimated_effort": "3–4 hours (new experiment runs at N = 3, 6, 10, 20 + analysis)",
+    "status": "complete"
+  }
+]

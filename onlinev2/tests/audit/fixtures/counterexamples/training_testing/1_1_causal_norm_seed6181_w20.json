@@ -1,0 +1,7 @@
+{
+  "has_causal_normalize": false,
+  "max_abs_diff": 0.4974080261563042,
+  "perturbation": 1.0,
+  "seed": 6181,
+  "warmup": 20
+}

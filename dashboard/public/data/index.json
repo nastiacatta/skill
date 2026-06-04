@@ -1,0 +1,381 @@
+[
+  {
+    "name": "skill_wager",
+    "displayName": "Skill \u00d7 Wager",
+    "description": "Tests the interaction between online skill learning and deposit-driven effective wagers across agents with different forecast quality.",
+    "block": "experiments",
+    "dgp": "latent_fixed",
+    "scoringMode": "CRPS",
+    "nAgents": 3,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "timeseries": "timeseries.csv",
+      "summary": "summary.csv"
+    }
+  },
+  {
+    "name": "forecast_aggregation",
+    "displayName": "Forecast Aggregation",
+    "description": "Compares aggregate forecast quality across weighting rules: uniform, deposit-only, skill-only, and the full mechanism.",
+    "block": "experiments",
+    "dgp": "latent_fixed",
+    "scoringMode": "CRPS",
+    "nAgents": 6,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "crps_summary": "crps_summary.csv",
+      "paired_delta": "paired_delta.csv",
+      "summary": "summary.json"
+    }
+  },
+  {
+    "name": "behaviour_matrix",
+    "displayName": "Behaviour Matrix",
+    "description": "Holds the mechanism fixed and varies only behaviour modules: benign baselines, realistic frictions, and adversaries.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "behaviour_matrix": "behaviour_matrix.csv"
+    }
+  },
+  {
+    "name": "parameter_sweep",
+    "displayName": "Parameter Sweep",
+    "description": "Sweeps over \u03bb and \u03c3_min to map the Pareto frontier between forecast quality and concentration.",
+    "block": "experiments",
+    "dgp": "latent_fixed",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "sweep": "sweep.csv"
+    }
+  },
+  {
+    "name": "calibration",
+    "displayName": "Calibration",
+    "description": "Evaluates the calibration of the aggregate forecast by checking quantile coverage against nominal levels.",
+    "block": "core",
+    "dgp": "latent_fixed",
+    "scoringMode": "CRPS",
+    "nAgents": 6,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "reliability": "reliability.csv"
+    }
+  },
+  {
+    "name": "settlement_sanity",
+    "displayName": "Settlement Sanity",
+    "description": "Verifies that the settlement mechanism is budget-balanced and payouts are non-negative.",
+    "block": "core",
+    "dgp": "latent_fixed",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "series": "series.csv",
+      "summary": "summary.csv",
+      "hist": "hist.csv"
+    }
+  },
+  {
+    "name": "fixed_deposit",
+    "displayName": "Fixed Deposit",
+    "description": "Examines skill evolution when all agents make identical fixed deposits each round.",
+    "block": "experiments",
+    "dgp": "latent_fixed",
+    "scoringMode": "CRPS",
+    "nAgents": 4,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "timeseries": "timeseries.csv"
+    }
+  },
+  {
+    "name": "intermittency_stress_test",
+    "displayName": "Intermittency Stress",
+    "description": "Compares IID vs bursty vs edge-threshold vs avoid-skill-decay participation.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "intermittency_stress": "intermittency_stress.csv"
+    }
+  },
+  {
+    "name": "sybil",
+    "displayName": "Sybil Attack",
+    "description": "Tests whether sybil splitting gains an advantage under the mechanism across three scenarios: identical, diversified, and strategic deposit splitting.",
+    "block": "experiments",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "sybil": "sybil.csv"
+    }
+  },
+  {
+    "name": "arbitrage_scan",
+    "displayName": "Arbitrage Scan",
+    "description": "Runs arbitrageurs across a parameter grid to see when arbitrage appears and whether it dominates wealth.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "arbitrage_scan": "arbitrage_scan.csv"
+    }
+  },
+  {
+    "name": "weight_learning",
+    "displayName": "Weight Learning",
+    "description": "Tests whether online learning converges to the correct weights for a mixture DGP.",
+    "block": "experiments",
+    "dgp": "aggregation_method1",
+    "scoringMode": "CRPS",
+    "nAgents": 3,
+    "rounds": 20000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "summary": "summary.json",
+      "config": "config.json"
+    }
+  },
+  {
+    "name": "skill_recovery",
+    "displayName": "Skill Recovery",
+    "description": "Tests whether skill estimates recover after perturbation across CRPS and MAE scoring.",
+    "block": "experiments",
+    "dgp": "latent_fixed",
+    "scoringMode": "CRPS",
+    "nAgents": 6,
+    "rounds": 20000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "quantiles_crps_summary": "quantiles_crps_summary.csv",
+      "point_mae_summary": "point_mae_summary.csv"
+    }
+  },
+  {
+    "name": "detection_adaptation",
+    "displayName": "Detection & Adaptation",
+    "description": "Compares a fixed manipulator with an adaptive evader that balances manipulation with detector evasion.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "detection_adaptation": "detection_adaptation.csv"
+    }
+  },
+  {
+    "name": "preference_stress_test",
+    "displayName": "Preference Stress",
+    "description": "Compares truthful vs hedged risk-averse reporting to evaluate bias and welfare.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "preference_stress": "preference_stress.csv"
+    }
+  },
+  {
+    "name": "deposit_policy_comparison",
+    "displayName": "Deposit Policy Comparison",
+    "description": "Compares deposit policies to understand their effect on market concentration and forecast quality.",
+    "block": "experiments",
+    "dgp": "latent_fixed",
+    "scoringMode": "CRPS",
+    "nAgents": 6,
+    "rounds": 1000,
+    "nSeeds": 20,
+    "dataFiles": {
+      "deposit_policy_comparison": "deposit_policy_comparison.csv"
+    }
+  },
+  {
+    "name": "collusion_stress",
+    "displayName": "Coalition Stress (Chun-Shachter)",
+    "description": "Three-member coalition broadcasting the wager-weighted mean / median of member beliefs. Tests whether Chun-Shachter (2011) coalition attack on WSWMs extracts positive profit under the MAE mechanism.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 11,
+    "rounds": 1000,
+    "nSeeds": 10,
+    "dataFiles": {
+      "collusion_stress": "collusion_stress.csv",
+      "collusion_stress_summary": "collusion_stress_summary.csv"
+    }
+  },
+  {
+    "name": "informed_collusion",
+    "displayName": "Informed Collusion (Coalition \u00d7 Insider)",
+    "description": "Chun-Shachter coalition with per-member privileged lagged information on an AR(1) DGP. Combines two attack vectors: coalition arbitrage from residual member disagreement and the insider precision bonus.",
+    "block": "behaviour",
+    "dgp": "AR(1) phi=0.7",
+    "scoringMode": "CRPS",
+    "nAgents": 11,
+    "rounds": 1000,
+    "nSeeds": 10,
+    "dataFiles": {
+      "informed_collusion": "informed_collusion.csv",
+      "informed_collusion_summary": "informed_collusion_summary.csv"
+    }
+  },
+  {
+    "name": "insider_advantage",
+    "displayName": "Insider Advantage",
+    "description": "Compares no insider vs F_{t-1}-compliant lagged insider vs outcome-leaking attacker (allow_leakage=True audit) on an AR(1) DGP.",
+    "block": "behaviour",
+    "dgp": "AR(1) phi=0.7",
+    "scoringMode": "CRPS",
+    "nAgents": 9,
+    "rounds": 1000,
+    "nSeeds": 10,
+    "dataFiles": {
+      "insider_advantage": "insider_advantage.csv",
+      "insider_advantage_summary": "insider_advantage_summary.csv"
+    }
+  },
+  {
+    "name": "wash_activity_gaming",
+    "displayName": "Wash / Activity Gaming",
+    "description": "Multi-account activity gaming with two styles: anchor (low score-rule cost) and split_bet (maximal internal transfer). Measures inflation and wash-account profit.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 11,
+    "rounds": 1000,
+    "nSeeds": 10,
+    "dataFiles": {
+      "wash_activity_gaming": "wash_activity_gaming.csv",
+      "wash_activity_gaming_summary": "wash_activity_gaming_summary.csv"
+    }
+  },
+  {
+    "name": "strategic_reporting",
+    "displayName": "Strategic Reporting",
+    "description": "Sweep over pull and target to measure aggregate shift vs attacker profit. Reveals a non-monotone frontier: gentle pulls are both profitable and most effective at shifting r_hat.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 9,
+    "rounds": 1000,
+    "nSeeds": 10,
+    "dataFiles": {
+      "strategic_reporting": "strategic_reporting.csv",
+      "strategic_reporting_summary": "strategic_reporting_summary.csv"
+    }
+  },
+  {
+    "name": "sybil_arbitrage",
+    "displayName": "Sybil Arbitrage Audit",
+    "description": "Fans the Chen-Devanur arbitrage attack across k sybil accounts with equal total stake. Checks Lambert sybilproofness holds on top of an already-profitable attack.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 10,
+    "dataFiles": {
+      "sybil_arbitrage": "sybil_arbitrage.csv",
+      "sybil_arbitrage_summary": "sybil_arbitrage_summary.csv"
+    }
+  },
+  {
+    "name": "arbitrage_crowd_size",
+    "displayName": "Arbitrage \u00d7 Crowd Size",
+    "description": "2D sweep of the arbitrage attack over lambda and n_benign. Shows attacker profit scales roughly linearly with crowd size because disagreement grows.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": "4..32",
+    "rounds": 500,
+    "nSeeds": 10,
+    "dataFiles": {
+      "arbitrage_crowd_size": "arbitrage_crowd_size.csv",
+      "arbitrage_crowd_size_summary": "arbitrage_crowd_size_summary.csv"
+    }
+  },
+  {
+    "name": "reputation_reset",
+    "displayName": "Reputation Reset / Whitewashing",
+    "description": "Whitewashing attacker (Feldman-Chuang 2004) that abandons a collapsed identity and rejoins as a newcomer. Compares fixed identity vs reset; measures how much the mechanism's staleness decay blunts the attack.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 9,
+    "rounds": 1000,
+    "nSeeds": 5,
+    "dataFiles": {
+      "reputation_reset": "reputation_reset.csv",
+      "reputation_reset_summary": "reputation_reset_summary.csv"
+    }
+  },
+  {
+    "name": "identity_attack_matrix",
+    "displayName": "Identity Attack Matrix",
+    "description": "Compares single account, sybil split, reputation reset, and collusive multi-account identity policies.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 10,
+    "dataFiles": {
+      "identity_attack_matrix": "identity_attack_matrix.csv"
+    }
+  },
+  {
+    "name": "drift_adaptation",
+    "displayName": "Drift Adaptation",
+    "description": "Compares baseline, fast-adaptor, and slow-adaptor belief policies against a drifting DGP.",
+    "block": "behaviour",
+    "dgp": "drift",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 10,
+    "dataFiles": {
+      "drift_adaptation": "drift_adaptation.csv"
+    }
+  },
+  {
+    "name": "stake_policy_matrix",
+    "displayName": "Stake Policy Matrix",
+    "description": "Compares fixed-fraction, Kelly-like, house-money, lumpy-tier, break-even, and volatility-sensitive staking policies.",
+    "block": "behaviour",
+    "dgp": "baseline",
+    "scoringMode": "CRPS",
+    "nAgents": 10,
+    "rounds": 1000,
+    "nSeeds": 10,
+    "dataFiles": {
+      "stake_policy_matrix": "stake_policy_matrix.csv"
+    }
+  }
+]

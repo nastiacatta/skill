@@ -1,0 +1,4 @@
+scenario,mean_attacker_profit,se_attacker_profit,ci_low,ci_high,mean_n_resets,n_seeds
+baseline,0.0,0.0,0.0,0.0,0.0,5
+manipulator_no_reset,-20.0,9.33221538201941e-15,-20.000000000000018,-19.999999999999982,0.0,5
+reputation_reset,-3.492468041557649,0.14301699854803043,-3.7727813587117884,-3.2121547244035096,1.0,5

@@ -1,0 +1,112 @@
+{
+  "schema_version": "cams_pm25_experiment.v1",
+  "description": "CAMS European AQ multi-model mechanism comparison. K=12 (11 CTMs + ensemble median), Po Valley, Dec 2024 - Feb 2025.",
+  "station": {
+    "name": "Po Valley / Milan grid cell",
+    "lat": 45.45000076293945,
+    "lon": 9.449999809265137,
+    "target_lat": 45.45,
+    "target_lon": 9.45
+  },
+  "panel": {
+    "n_forecasters": 12,
+    "forecaster_names": [
+      "CHIMERE",
+      "DEHM",
+      "EMEP",
+      "EURADIM",
+      "GEMAQ",
+      "LOTOS",
+      "MATCH",
+      "MINNI",
+      "MOCAGE",
+      "MONARCH",
+      "SILAM",
+      "ENSEMBLE_MEDIAN"
+    ],
+    "panel_type": "heterogeneous_CTM"
+  },
+  "block": {
+    "start": "2024-12-01",
+    "end": "2025-02-28",
+    "n_hours_total": 2160,
+    "n_hours_eval": 1960,
+    "warmup": 200
+  },
+  "params": {
+    "gamma": 16.0,
+    "rho": 0.5,
+    "lam": 0.05,
+    "eta": 2.0,
+    "normalize_mode": "expanding_causal",
+    "tau_grid": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "bootstrap_block_size_hours": 168,
+    "bootstrap_n_replicates": 2000
+  },
+  "results": {
+    "mean_crps_uniform": 0.14527574218867054,
+    "mean_crps_mechanism": 0.12567643804344217,
+    "mean_crps_ensemble_alone": 0.15049981533455176,
+    "mean_crps_median": 0.14760750562025,
+    "delta_crps_median": -0.0023317634315794533,
+    "pct_reduction_median": -1.6050604157651986,
+    "dm_median_vs_mech_t": 23.349599258227922,
+    "dm_median_vs_mech_p": 0.0,
+    "dm_median_vs_mech_hac_lag": 1,
+    "delta_crps": 0.01959930414522837,
+    "pct_reduction": 13.491105844618318,
+    "pm25_range_lo": 1.4745005369186401,
+    "pm25_range_hi": 132.06295776367188,
+    "pm25_range_span": 130.58845722675323,
+    "mean_crps_uniform_ugm3": 18.971335044890033,
+    "mean_crps_mechanism_ugm3": 16.41189215384675,
+    "dm_t": 25.850123557747736,
+    "dm_p": 0.0,
+    "dm_hac_lag": 1,
+    "bootstrap_ci_lo": 0.015568600587303739,
+    "bootstrap_ci_hi": 0.02309757690836684,
+    "herfindahl": 0.08445651862632626,
+    "effective_n": 11.840412276812534,
+    "mean_weights": {
+      "CHIMERE": 0.07002230696309057,
+      "DEHM": 0.09227540188975325,
+      "EMEP": 0.07479098897828582,
+      "EURADIM": 0.08914088098821997,
+      "GEMAQ": 0.0699564526257434,
+      "LOTOS": 0.06947630491830038,
+      "MATCH": 0.09827702306592599,
+      "MINNI": 0.08646346242380895,
+      "MOCAGE": 0.08548008204960346,
+      "MONARCH": 0.08219717841062577,
+      "SILAM": 0.09502456625033863,
+      "ENSEMBLE_MEDIAN": 0.08689535143630382
+    }
+  },
+  "outcome": {
+    "class": "A",
+    "description": "Deployment-grade positive"
+  },
+  "nan_fractions": {
+    "CHIMERE": 0.0,
+    "DEHM": 0.0,
+    "EMEP": 0.0,
+    "EURADIM": 0.0,
+    "GEMAQ": 0.0,
+    "LOTOS": 0.0,
+    "MATCH": 0.0,
+    "MINNI": 0.0,
+    "MOCAGE": 0.0,
+    "MONARCH": 0.0,
+    "SILAM": 0.0
+  }
+}

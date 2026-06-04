@@ -1,0 +1,5 @@
+{
+  "note": "Source of run_real_data_comparison does not reference 'michael_ogd' \u2014 the baseline row is never emitted.",
+  "rules_list_contains_michael_ogd": false,
+  "runner_module": "onlinev2.real_data.runner"
+}

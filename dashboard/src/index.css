@@ -1,0 +1,923 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ──────────────────────────────────────────────────────────────
+   Academic palette — clean white with restrained accents
+   ──────────────────────────────────────────────────────────────
+   ink        #0b1220   near-black, for display type
+   paper      #ffffff   clean white background
+   cream      #f7f7f8   sidebar / alt surface (very light neutral)
+   border     #e5e7eb   neutral low-contrast rule
+   rule       #2c3347   dark keyline for accents
+
+   navy       #1d3461   primary accent, headings
+   teal       #0f766e   evidence / positive
+   amber      #b45309   warning / caution
+   crimson    #9a1a2f   negative / destructive
+   plum       #5b21b6   methodology / secondary
+   ────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Surfaces — clean white with neutral greys */
+  --paper: #ffffff;
+  --cream: #f7f7f8;
+  --card:  #ffffff;
+  --border:        #e5e7eb;
+  --border-strong: #d1d5db;
+
+  /* Ink */
+  --ink:        #0b1220;
+  --ink-muted:  #2b3246;
+  --ink-soft:   #5a6175;
+  /* Faintest ink in the ramp. Tuned to #6a6f81 so even caption/hint text on
+     white (5.0:1) and cream (4.67:1) clears WCAG AA, while staying visibly
+     lighter than --ink-soft. */
+  --ink-faint:  #6a6f81;
+
+  /* Accents — anchored to slide deck palette (presentationConstants.ts) */
+  --navy:    #1B2A4A;
+  --navy-ink:#0F172A;
+  --imperial:#003E74;
+  --teal:    #2E8B8B;
+  --teal-deep:#246E6E;
+  --coral:   #E85D4A;
+  --amber:   #B45309;
+  --crimson: #9A1A2F;
+  --plum:    #7C3AED;
+  --gold:    #A16207;
+
+  /* Soft tints for panels — keep existing tokens, retuned to match anchors */
+  --navy-tint:    #EEF2F9;
+  --teal-tint:    #E7F3F1;
+  --coral-tint:   #FCEDEA;
+  --amber-tint:   #FBF3E5;
+  --crimson-tint: #FBECEF;
+  --plum-tint:    #F1ECFB;
+
+  /* Type scale — academic, slightly larger than typical SaaS */
+  --fs-xs:  13px;   /* labels, captions */
+  --fs-sm:  14.5px; /* secondary body */
+  --fs-md:  16px;   /* body default */
+  --fs-lg:  18px;   /* lead / callouts */
+  --fs-h3:  22px;
+  --fs-h2:  28px;
+  --fs-h1:  40px;
+
+  --lh-tight:  1.25;
+  --lh-snug:   1.4;
+  --lh-normal: 1.55;
+  --lh-relax:  1.7;
+
+  /* Shadows — subtler than before */
+  --shadow-sm: 0 1px 0 rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 1px 2px rgba(15, 23, 42, 0.05), 0 4px 12px -6px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 2px 4px rgba(15, 23, 42, 0.04), 0 16px 40px -12px rgba(15, 23, 42, 0.12);
+
+  /* Font stacks — Nunito Sans as primary (consistent everywhere); Source Serif 4 for display */
+  --font-sans:  'Nunito Sans', 'Avenir Next', 'Avenir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Source Serif 4', 'Charter', 'Iowan Old Style', Georgia, serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Legacy aliases used by existing code */
+  --accent: var(--teal);
+  --accent-light: #14b8a6;
+  --accent-secondary: var(--navy);
+  --muted: var(--ink-faint);
+  --bg: var(--paper);
+  --text: var(--ink);
+  --text-secondary: var(--ink-soft);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+/* Display type uses the serif — journal-style headings */
+h1, h2, h3, .font-display {
+  font-family: var(--font-serif);
+  font-feature-settings: 'kern', 'liga', 'onum';
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+h1 { font-size: var(--fs-h1); line-height: var(--lh-tight); font-weight: 600; }
+h2 { font-size: var(--fs-h2); line-height: var(--lh-tight); font-weight: 600; }
+h3 { font-size: var(--fs-h3); line-height: var(--lh-snug); font-weight: 600; }
+
+/* Panel section heading — used inside audit panels, analysis cards, etc.
+   Serif, slightly smaller than h2, always ink. */
+.panel-heading {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+
+/* A thin, understated small-caps label for eyebrows */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Paper-like card surface */
+.paper-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Panel / card primitive for analysis content blocks.
+   Replaces ad-hoc `rounded-xl border border-slate-200 bg-white p-5`
+   patterns scattered across pages. */
+.panel-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+}
+.panel-card + .panel-card { margin-top: 16px; }
+
+/* Inline stat / metric group spacing */
+.panel-grid {
+  display: grid;
+  gap: 12px;
+}
+
+/* Subtle prose flow for reading blocks */
+.prose-academic p {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--ink-muted);
+}
+.prose-academic p + p { margin-top: 0.85em; }
+
+/* Text selection */
+::selection {
+  background: rgba(15, 118, 110, 0.18);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(29, 52, 97, 0.55);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Gentle scrollbars */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(140, 146, 163, 0.28);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(90, 97, 117, 0.5);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+/* Recharts tune — neutral grid lines */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #e5e7eb;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Global surface recoloring for the main app (not presentation).
+   These rules turn the SaaS-looking slate/white cards that still
+   litter analysis panels into warm paper cards without having to
+   restyle each component individually.
+   ────────────────────────────────────────────────────────────── */
+
+main .bg-white,
+main .bg-white\/95,
+main .bg-white\/90,
+main .bg-white\/60 {
+  background-color: var(--card) !important;
+}
+
+main .bg-slate-50,
+main .bg-slate-50\/40,
+main .bg-slate-50\/60,
+main .bg-slate-50\/70,
+main .bg-slate-50\/80,
+main .bg-slate-100 {
+  background-color: var(--cream) !important;
+}
+
+main .border-slate-200,
+main .border-slate-100,
+main .border-slate-200\/70,
+main .border-slate-200\/80 {
+  border-color: var(--border) !important;
+}
+
+main .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+main .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--border) !important;
+}
+
+/* Text colour heuristics — keep tailwind slate-* but shift to warm ink */
+main .text-slate-900 { color: var(--ink) !important; }
+main .text-slate-800 { color: var(--ink) !important; }
+main .text-slate-700 { color: var(--ink-muted) !important; }
+main .text-slate-600 { color: var(--ink-muted) !important; }
+main .text-slate-500 { color: var(--ink-soft) !important; }
+main .text-slate-400 { color: var(--ink-faint) !important; }
+main .text-slate-300 { color: var(--border-strong) !important; }
+
+/* Tailwind's default teal focuses/accents should use the academic teal */
+main .text-teal-600,
+main .text-teal-700 { color: var(--teal) !important; }
+main .text-teal-800 { color: var(--teal-deep) !important; }
+main .bg-teal-50    { background-color: var(--teal-tint) !important; }
+main .border-teal-200 { border-color: rgba(15, 118, 110, 0.22) !important; }
+
+/* Emerald → academic teal */
+main .text-emerald-600,
+main .text-emerald-700 { color: var(--teal-deep) !important; }
+main .bg-emerald-50    { background-color: var(--teal-tint) !important; }
+main .border-emerald-200 { border-color: rgba(15, 118, 110, 0.22) !important; }
+main .bg-emerald-500     { background-color: var(--teal) !important; }
+
+/* Indigo (often used as a "skill" accent) → navy */
+main .text-indigo-500,
+main .text-indigo-600,
+main .text-indigo-700 { color: var(--navy) !important; }
+main .bg-indigo-50    { background-color: var(--navy-tint) !important; }
+main .border-indigo-200,
+main .border-indigo-100 { border-color: rgba(29, 52, 97, 0.22) !important; }
+
+/* Amber stays as amber but pulls from academic tokens */
+main .text-amber-600,
+main .text-amber-700 { color: var(--amber) !important; }
+main .bg-amber-50    { background-color: var(--amber-tint) !important; }
+main .border-amber-200 { border-color: rgba(180, 83, 9, 0.22) !important; }
+
+/* Red / crimson */
+main .text-red-600,
+main .text-red-700 { color: var(--crimson) !important; }
+main .bg-red-50    { background-color: var(--crimson-tint) !important; }
+main .border-red-200 { border-color: rgba(154, 26, 47, 0.22) !important; }
+
+/* Violet → plum */
+main .text-violet-600,
+main .text-violet-700 { color: var(--plum) !important; }
+main .bg-violet-50    { background-color: var(--plum-tint) !important; }
+main .border-violet-200 { border-color: rgba(91, 33, 182, 0.22) !important; }
+
+/* Soften the radical rounded-xl used in many analysis panels */
+main .rounded-xl,
+main .rounded-2xl {
+  border-radius: 6px !important;
+}
+
+/* Replace the bright ring-on-focus teal glow with a warm navy outline */
+main .focus\:ring-teal-500\/20:focus,
+main .focus\:ring-teal-500\/30:focus,
+main .focus\:ring-teal-500\/40:focus {
+  --tw-ring-color: rgba(29, 52, 97, 0.25) !important;
+}
+
+main .focus\:border-teal-400:focus { border-color: var(--navy) !important; }
+
+/* Neutralise hard white gradients sometimes used in insight callouts */
+main .bg-gradient-to-br.from-slate-50.to-slate-50\/40,
+main .bg-gradient-to-br.from-slate-50.to-white,
+main .bg-gradient-to-b.from-slate-50.to-white,
+main .bg-gradient-to-b.from-slate-50\/80.to-transparent {
+  background: var(--cream) !important;
+}
+
+/* Heading text in h2/h3 should use serif when default Tailwind sizing is used */
+main h2.text-2xl,
+main h2.text-3xl,
+main h2.text-xl {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* Active-button / pill pattern used across many pages.
+   Route "solid dark" slate buttons to navy and round corners. */
+main .bg-slate-800,
+main .bg-slate-900,
+main .bg-slate-950 {
+  background-color: var(--navy) !important;
+}
+
+main .hover\:bg-slate-700:hover {
+  background-color: var(--navy-ink) !important;
+}
+
+/* Backdrop for modal/lightbox overlays */
+main .bg-slate-950\/40 {
+  background-color: rgba(11, 18, 32, 0.4) !important;
+}
+
+/* Hover states for pill buttons */
+main .hover\:bg-slate-200:hover {
+  background-color: var(--border-strong) !important;
+}
+main .hover\:bg-slate-50:hover,
+main .hover\:bg-slate-100:hover {
+  background-color: rgba(15, 23, 42, 0.035) !important;
+}
+
+/* Fuchsia / bright pink accents rarely used in the main app — neutralise */
+main .text-fuchsia-600,
+main .text-fuchsia-500 { color: var(--plum) !important; }
+
+/* Tables generated with default tailwind — give a restful header row */
+main thead tr.bg-slate-50,
+main thead tr.bg-white {
+  background: var(--cream) !important;
+}
+
+/* Prevent double borders where a rounded card contains a bordered table */
+main .rounded-xl > table,
+main .rounded-2xl > table {
+  border-collapse: collapse;
+}
+
+/* Soft shadow consolidation — replace the dozen custom shadow-[...] values */
+main [class*="shadow-[0_1px_2px_rgba(15,23,42,0.03)]"] {
+  box-shadow: var(--shadow-sm) !important;
+}
+main [class*="shadow-[0_2px_8px_rgba(15,23,42,0.06)]"],
+main [class*="shadow-[0_4px_12px_rgba(15,23,42,0.08)]"] {
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* KBD tags: unify as warm card pills */
+main kbd {
+  font-family: var(--font-mono);
+  background: var(--cream) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--ink-muted);
+}
+
+/* Body copy inside main gets a slightly larger default */
+main .text-sm    { font-size: 14px; }
+main .text-xs    { font-size: 12.5px; }
+main .text-\[11px\] { font-size: 12.5px !important; }
+main .text-\[10px\] { font-size: 12px !important; }
+main .text-\[9px\]  { font-size: 11px !important; }
+
+/* Readability floor for body text (not SVG).
+   Any inline font-size below 12px on regular DOM text gets nudged up. */
+main p[style*="fontSize: 10"],
+main p[style*="fontSize: 11"],
+main span[style*="fontSize: 10"],
+main span[style*="fontSize: 11"],
+main div[style*="fontSize: 10"],
+main div[style*="fontSize: 11"],
+main th[style*="fontSize: 10"],
+main th[style*="fontSize: 11"],
+main td[style*="fontSize: 10"],
+main td[style*="fontSize: 11"],
+main label[style*="fontSize: 10"],
+main label[style*="fontSize: 11"] {
+  font-size: 12px !important;
+}
+
+/* Specific extra harmonisation — rounded pills/buttons look mechanical at 999 */
+main button.rounded-full,
+main span.rounded-full,
+main a.rounded-full { border-radius: 999px !important; }
+
+/* Make the sky / fuchsia / pink accent chips behave */
+main .text-sky-600,
+main .text-sky-700 { color: var(--navy) !important; }
+main .bg-sky-50    { background-color: var(--navy-tint) !important; }
+main .border-sky-200 { border-color: rgba(29, 52, 97, 0.22) !important; }
+
+main .text-blue-600,
+main .text-blue-700 { color: var(--navy) !important; }
+main .bg-blue-50    { background-color: var(--navy-tint) !important; }
+main .border-blue-200 { border-color: rgba(29, 52, 97, 0.22) !important; }
+
+/* Tighter radius on modal/overlay that still use rounded-2xl */
+main .rounded-2xl > div.p-5,
+main .rounded-2xl > div.p-6 { border-radius: inherit; }
+
+/* Any stray text-emerald-* or bg-emerald-* 500/600 for iconography */
+main .bg-emerald-400, main .bg-emerald-500, main .bg-emerald-600 {
+  background-color: var(--teal) !important;
+}
+main .text-emerald-500, main .text-emerald-600 { color: var(--teal) !important; }
+
+main .bg-amber-400, main .bg-amber-500 { background-color: var(--amber) !important; }
+main .bg-red-400,  main .bg-red-500   { background-color: var(--crimson) !important; }
+
+/* Give the charts a quiet gridlines even when sub-components override */
+main .recharts-cartesian-grid-horizontal line,
+main .recharts-cartesian-grid-vertical line {
+  stroke: var(--border) !important;
+  stroke-opacity: 0.8 !important;
+}
+
+/* Uniform axis label colour */
+main .recharts-cartesian-axis-tick-value,
+main .recharts-label,
+main .recharts-legend-item-text {
+  fill: var(--ink-soft) !important;
+}
+
+.recharts-tooltip-wrapper {
+  transition: transform 80ms ease-out !important;
+}
+
+/* Dark-panel scrollbar, kept for explorer */
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* Range inputs */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  height: 4px; background: #d1d5db; border-radius: 4px; outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--teal); cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: transform 0.15s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.25); }
+/* Firefox renders its own native thumb/track unless these -moz- pseudo
+   elements are styled; without them the global sliders (e.g. the market
+   transport scrubber) showed a grey default thumb in Firefox. Mirror the
+   webkit thumb so the teal control is identical across engines. */
+input[type="range"]::-moz-range-thumb {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--teal); cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: transform 0.15s ease;
+}
+input[type="range"]::-moz-range-thumb:hover { transform: scale(1.15); }
+input[type="range"]::-moz-range-thumb:active { transform: scale(1.25); }
+input[type="range"]::-moz-range-track {
+  height: 4px; background: #d1d5db; border-radius: 4px;
+}
+
+.bg-white input[type="range"],
+.bg-slate-50 input[type="range"],
+.bg-slate-100 input[type="range"] { background: #e5e7eb; }
+.bg-white input[type="range"]::-moz-range-track,
+.bg-slate-50 input[type="range"]::-moz-range-track,
+.bg-slate-100 input[type="range"]::-moz-range-track { background: #e5e7eb; }
+
+/* Animation primitives kept for existing pages */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+@keyframes soft-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.12); opacity: 0.85; }
+}
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Per-route view entrance: a calm fade plus a small upward slide. Matches the
+   motion tokens the route transition used before (240ms, ease-out). The view
+   is re-keyed on the route in App.tsx so this re-runs per navigation. The
+   universal reduce-motion guard below neutralises it. */
+@keyframes page-transition-view-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-transition-view {
+  animation: page-transition-view-in 240ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+/* "How to read this" disclosure reveal: a calm fade plus a small upward slide,
+   reusing the shared fadeSlideIn keyframe. The universal reduce-motion guard
+   below neutralises it to an instant swap. */
+.how-to-read-panel {
+  animation: fadeSlideIn 180ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.katex-error { color: var(--ink-soft) !important; }
+
+/* Animated underline */
+.link-underline { position: relative; }
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -2px;
+  height: 1px; width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+.link-underline:hover::after { transform: scaleX(1); }
+
+/* ── Story stage: single-column vertical layout ── */
+.story-stage-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+.story-plot-hero {
+  width: 100%;
+  min-height: 320px;
+}
+.story-forecaster-strip {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.story-forecaster-strip > button {
+  flex: 1 1 140px;
+  max-width: 200px;
+}
+@media (min-width: 1440px) {
+  .story-plot-hero {
+    min-height: 380px;
+  }
+  .story-forecaster-strip > button {
+    max-width: 220px;
+  }
+}
+@media (min-width: 1920px) {
+  .story-plot-hero {
+    min-height: 420px;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Platform design-system tokens and utilities.
+   Added, not replacing: the tokens below mirror designTokens.ts so
+   CSS-only consumers (utility classes, transitions) stay in sync with
+   the typed module. No existing variables are removed.
+   ────────────────────────────────────────────────────────────── */
+:root {
+  /* Spacing scale (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Radius scale */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Elevation — first three mirror --shadow-*; lift is the hover level */
+  --shadow-lift: 0 4px 8px -2px rgba(15, 23, 42, 0.06), 0 24px 56px -16px rgba(15, 23, 42, 0.16);
+
+  /* Motion durations (ms) */
+  --dur-instant: 120ms;
+  --dur-fast: 180ms;
+  --dur-base: 240ms;
+  --dur-slow: 320ms;
+  --dur-deliberate: 420ms;
+  --dur-exit: 200ms;
+
+  /* Easing curves */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-emphasised: cubic-bezier(0.2, 0, 0, 1.2);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout */
+  --topbar-h: 64px;
+  --nav-rail-w: 256px;
+  --nav-rail-collapsed-w: 64px;
+  --content-max-w: 1200px;
+  --prose-max-w: 720px;
+  --wide-max-w: 1440px;
+}
+
+/* Interactive card hover/active lift. Suppressed under reduce-motion via
+   the global block below (transition collapses) and the explicit guard. */
+.platform-card--interactive {
+  transition: box-shadow var(--dur-base) var(--ease-standard),
+              transform var(--dur-base) var(--ease-standard);
+  cursor: pointer;
+}
+.platform-card--interactive:hover,
+.platform-card--interactive:focus-visible {
+  box-shadow: var(--shadow-lift);
+  transform: translateY(-2px);
+}
+
+/* Button hover/active feedback (ease-out, ~instant). */
+.platform-btn {
+  transition: filter var(--dur-instant) var(--ease-standard),
+              transform var(--dur-instant) var(--ease-standard),
+              box-shadow var(--dur-instant) var(--ease-standard);
+}
+.platform-btn:not([disabled]):not([aria-disabled='true']):hover {
+  filter: brightness(1.06);
+}
+.platform-btn:not([disabled]):not([aria-disabled='true']):active {
+  transform: translateY(1px);
+}
+.platform-btn--ghost:not([disabled]):not([aria-disabled='true']):hover {
+  background: rgba(15, 23, 42, 0.05) !important;
+  filter: none;
+}
+
+/* Button loading spinner. */
+@keyframes platform-spin {
+  to { transform: rotate(360deg); }
+}
+.platform-btn__spinner {
+  animation: platform-spin 0.7s linear infinite;
+}
+
+/* Big, legible tabular figures helper. */
+.platform-stat-tile .tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Platform range sliders: the design system (§8) asks for a ≥20px thumb on
+   a ≥44px hit area so the deposit / gate controls are comfortable to grab.
+   Scoped to platform cards so the rest of the app keeps its compact thumb.
+   Colour is the existing teal token; no new hex. */
+.platform-card input[type="range"] {
+  height: 6px;
+  cursor: pointer;
+}
+.platform-card input[type="range"]::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
+}
+.platform-card input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  background: var(--teal);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
+}
+.platform-card input[type="range"]::-moz-range-track {
+  height: 6px;
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Responsive devices (P5): tablet (≤768) and phone (≤480).
+   The desktop range (1280–1920) is handled by the fluid grids and
+   the 1440/1920 blocks above. These two breakpoints make the shell,
+   the large charts and the dense rows usable on a tablet and a phone
+   without horizontal overflow. The px values mirror designTokens
+   BREAKPOINT.tablet (768) and BREAKPOINT.phone (480); keep them in
+   sync with that module.
+   ────────────────────────────────────────────────────────────── */
+
+/* Large-SVG scroll container (ChartScroller). Inert at/above tablet:
+   the chart fills its column. Below tablet it gives the chart a legible
+   minimum width and scrolls sideways, so the maths-correct drawing is
+   never shrunk to an unreadable size. The hint line is hidden until the
+   container is actually narrow. */
+.chart-scroller__viewport { width: 100%; }
+.chart-scroller__hint { display: none; }
+@media (max-width: 767px) {
+  .chart-scroller__viewport {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    /* A faint right-edge fade hints that more chart lies off-screen. */
+    border-right: 1px solid var(--border);
+  }
+  .chart-scroller__viewport > svg,
+  .chart-scroller__viewport > figure {
+    /* Hold a legible width; the fan stays a fan, axis labels stay readable.
+       At 720px a 14px label in the 960px viewBox renders ~10.5px on screen,
+       so the axis text and the aggregate / outcome marks stay distinct. */
+    min-width: 720px;
+  }
+  .chart-scroller__hint {
+    display: block;
+    margin: 6px 0 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    color: var(--ink-faint);
+  }
+}
+
+/* Tablet and below: the topbar reflows. The contextual cross-link is the
+   first thing to go (the rail and the zone segment still reach every
+   view), the wordmark subtitle hides, and the zone segment shrinks so the
+   two faces fit beside the wordmark. */
+@media (max-width: 1023px) {
+  .shell-wordmark-sub { display: none; }
+}
+@media (max-width: 767px) {
+  .shell-topbar {
+    gap: var(--space-3) !important;
+    padding-left: var(--space-4) !important;
+    padding-right: var(--space-4) !important;
+  }
+  .shell-crosslink { display: none !important; }
+  /* The guided-tour launcher is a presenter aid. Below the tablet breakpoint
+     the small-screen notice already directs to a laptop and the rail still
+     reaches every view, so the launcher hides rather than overflow the bar. */
+  .shell-tour-launcher { display: none !important; }
+  .shell-segment { margin: 0 0 0 auto !important; }
+  .shell-segment a {
+    font-size: var(--fs-sm) !important;
+    padding-left: var(--space-3) !important;
+    padding-right: var(--space-3) !important;
+  }
+}
+
+/* Tablet and below: a section heading with an actions slot (e.g. the
+   account forecaster picker) stacks instead of sitting title-beside-actions,
+   so a wide actions row wraps to full width inside the viewport rather than
+   pushing a control off-screen. */
+@media (max-width: 767px) {
+  .platform-section-heading {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+}
+
+/* Section tab strip (TabBar): the row scrolls sideways when the tabs exceed
+   the viewport. A right-edge fade hints that more tabs lie off-screen, and
+   the "Section N of M" progress label (a duplicate of the active tab name)
+   is hidden below the tablet breakpoint so the scroll region keeps the full
+   width and the row never forces a horizontal page scrollbar. */
+.tab-strip-scroll {
+  scroll-snap-type: x proximity;
+}
+@media (max-width: 767px) {
+  .tab-strip-scroll {
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+  }
+  .tab-strip-progress {
+    display: none;
+  }
+}
+
+/* Phone: tighten the bar so both zone faces fit beside the wordmark on a
+   360px viewport. The two faces stay ≥40px tall (tap target) and the
+   second face's right edge stays inside the viewport, so the toggle is
+   never clipped and the page never gains a horizontal scrollbar. */
+@media (max-width: 479px) {
+  .shell-topbar {
+    gap: var(--space-2) !important;
+    padding-left: var(--space-3) !important;
+    padding-right: var(--space-3) !important;
+  }
+  .shell-wordmark { min-width: 0; }
+  .shell-wordmark span:first-child { font-size: 17px !important; }
+  .shell-segment {
+    gap: 2px !important;
+    padding: 2px !important;
+  }
+  .shell-segment a {
+    font-size: var(--fs-xs) !important;
+    padding-left: var(--space-2) !important;
+    padding-right: var(--space-2) !important;
+    min-height: 40px !important;
+  }
+}
+
+/* Reduce-motion guard for the platform interactive surfaces:
+   collapse transforms/box-shadow transitions and stop the spinner. */
+@media (prefers-reduced-motion: reduce) {
+  .platform-card--interactive:hover,
+  .platform-card--interactive:focus-visible {
+    transform: none;
+  }
+  .platform-btn:not([disabled]):not([aria-disabled='true']):active {
+    transform: none;
+  }
+  .platform-btn__spinner {
+    animation: none;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Print styles. Strictly scoped to print media so screen rendering
+   is unchanged. The shell chrome carries a `no-print` class (top bar,
+   sidebar, glossary, back-to-top, tour rail, small-screen notice) and
+   is hidden. The content column resets to full width, black on white,
+   and drops the fixed heights and overflow clipping that keep the app
+   in a single viewport on screen, so the content flows across pages.
+   This makes ANY view print cleanly; the /summary view is built to
+   print especially clean.
+   ────────────────────────────────────────────────────────────── */
+@media print {
+  /* The id-scoped selector keeps this ahead of the flex/overflow resets
+     below (which are also id-scoped), so a wrapper that carries both
+     `overflow-hidden` and `no-print` (the sidebar) still hides. */
+  #root .no-print,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Let the document flow instead of being clipped to one viewport. */
+  html, body, #root {
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Neutralise the flex/overflow shell so the main column expands and
+     every nested scroll region releases its content to the page flow.
+     `:not(.no-print)` leaves the hidden chrome hidden (it would otherwise
+     win on specificity and re-show the sidebar). */
+  #root .h-screen:not(.no-print),
+  #root .overflow-hidden:not(.no-print),
+  #root main:not(.no-print),
+  #root .page-transition-view:not(.no-print) {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  /* Drop the per-route entrance transform so nothing prints shifted. */
+  .page-transition-view {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Neutralise sticky/fixed positioning so headers do not repeat or
+     float over the printed flow. */
+  .no-print,
+  [style*="position: fixed"],
+  [style*="position: sticky"] {
+    position: static !important;
+  }
+
+  /* Avoid breaking a card across a page where we can help it. */
+  .platform-card,
+  .print-block {
+    break-inside: avoid;
+  }
+}

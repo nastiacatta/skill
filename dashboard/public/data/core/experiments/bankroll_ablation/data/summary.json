@@ -1,0 +1,58 @@
+{
+  "experiment_name": "bankroll_ablation",
+  "config": {
+    "T": 500,
+    "n_forecasters": 6,
+    "seed": 42
+  },
+  "rows": [
+    {
+      "variant": "Full",
+      "mean_crps": 0.04241833621931709,
+      "delta_crps_vs_full": 0.0,
+      "mean_HHI": 0.31605324172337135,
+      "mean_N_eff": 3.419071414205216,
+      "final_gini": 0.4811130897727106
+    },
+    {
+      "variant": "A-",
+      "mean_crps": 0.04194739852629684,
+      "delta_crps_vs_full": -0.00047093769302024996,
+      "mean_HHI": 0.34711275401203046,
+      "mean_N_eff": 3.1386620223880373,
+      "final_gini": 0.545437606288509
+    },
+    {
+      "variant": "B-",
+      "mean_crps": 0.044417422497544254,
+      "delta_crps_vs_full": 0.0019990862782271607,
+      "mean_HHI": 0.2229080802527838,
+      "mean_N_eff": 4.770241764484707,
+      "final_gini": NaN
+    },
+    {
+      "variant": "C-",
+      "mean_crps": 0.04212083215301556,
+      "delta_crps_vs_full": -0.00029750406630153076,
+      "mean_HHI": 0.324425810138392,
+      "mean_N_eff": 3.366000641237242,
+      "final_gini": 0.5352493198496345
+    },
+    {
+      "variant": "D-",
+      "mean_crps": 0.029460199186292117,
+      "delta_crps_vs_full": -0.012958137033024977,
+      "mean_HHI": 0.31605324172337135,
+      "mean_N_eff": 3.419071414205216,
+      "final_gini": 0.4811130897727106
+    },
+    {
+      "variant": "E-",
+      "mean_crps": 0.04339836673963382,
+      "delta_crps_vs_full": 0.000980030520316727,
+      "mean_HHI": 0.225021770821753,
+      "mean_N_eff": 4.723740407576722,
+      "final_gini": 0.0
+    }
+  ]
+}

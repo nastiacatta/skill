@@ -1,0 +1,10 @@
+{
+  "has_todo": false,
+  "has_within_run_flag": false,
+  "top_keys": [
+    "config",
+    "per_round",
+    "rows",
+    "skill_ranking"
+  ]
+}

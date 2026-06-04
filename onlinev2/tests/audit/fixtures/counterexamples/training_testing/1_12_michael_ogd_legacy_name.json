@@ -1,0 +1,13 @@
+{
+  "methods": [
+    "best_single",
+    "inverse_variance",
+    "mechanism",
+    "median",
+    "michael_ogd",
+    "oracle",
+    "skill",
+    "trimmed_mean",
+    "uniform"
+  ]
+}

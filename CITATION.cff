@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: "Online mechanism / prediction market (onlinev2)"
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+authors:
+  - family-names: Cattaneo
+    given-names: Anastasia
+repository-code: "https://github.com/nastiacatta/masters"
+url: "https://github.com/nastiacatta/masters"
+license: MIT
+abstract: >
+  Research code for an online wagering mechanism and forecasting aggregation.
+  The package provides simulation, settlement, skill updates, behaviour models,
+  and experiment runners.
+keywords:
+  - prediction markets
+  - forecasting
+  - online learning
+  - wagering
+  - aggregation

@@ -1,0 +1,7 @@
+{
+  "best_idx": 0,
+  "mean_crps_best_single": 0.0506648080891217,
+  "mean_crps_mechanism": 0.05372562292929854,
+  "ratio": 1.0604130353122572,
+  "seed": 2024
+}
